@@ -1,11 +1,14 @@
 /*********************************************************************************
 *  WEB322 – Assignment 02
-*  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part *  of this assignment has been copied manually or electronically from any other source 
+*  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part * 
+*  of this assignment has been copied manually or electronically from any other source 
 *  (including 3rd party web sites) or distributed to other students.
 * 
-*  Name: Kalki Tageja Student ID: 163983216 Date: 2023-02-03
+*  Name: Kalki Tageja 
+*  Student ID: 163983216
+*  Date: 2023-02-03
 *
-*  Online (Cyclic) Link: ________________________________________________________
+*  Online (Cyclic) Link: https://excited-khakis-wasp.cyclic.app/
 *
 ********************************************************************************/ 
 
