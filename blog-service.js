@@ -1,4 +1,4 @@
-const file = require('fs');     //to use file system module
+const file = require('fs');     
 var posts = [];
 var Categories = [];
 
