@@ -1,60 +1,117 @@
-const file = require('fs');     
+const fs = require("fs");     //to use file system module
 var posts = [];
-var Categories = [];
+var categories = [];
 
-exports.initialize = () => {
-    return new Promise ((resolve, reject) => {
-        file.readFile('./data/posts.json', (err,data) => {
-            if (err) {
-                reject ('unable to read file');
-            }
-            else {
-                posts = JSON.parse(data);
-            }
-        });
-
-        file.readFile('./data/categories.json', (err,data)=> {
-            if (err) {
-                reject ('unable to read file');
-            }
-            else {
-                Categories = JSON.parse(data);
-            }
-        })
-        resolve();
-    })
+const initialize = () => {
+  return new Promise((resolve, reject) => {
+    fs.readFile("./data/posts.json", (err, data) => {
+      if (err) reject("unable to read file");
+      posts = JSON.parse(data);
+    });
+    fs.readFile("./data/categories.json", (err, data) => {
+      if (err) reject("unable to read file");
+      categories = JSON.parse(data);
+    });
+    resolve("Initialized successfuly");
+  });
 };
 
-exports.getAllPosts = () => {
-    return new Promise ((resolve,reject) => {
-        if (posts.length == 0) {
-            reject('no results returned');
-        }
-        else {
-            resolve(posts);
-        }
-    })
+
+const getAllPosts = () => {
+  return new Promise((resolve, reject) => {
+      if (posts.length === 0) {
+        reject("No results returned");
+      } else {
+        resolve(posts);
+      }
+    });
 };
 
-exports.getPublishedPosts = () => {
-    return new Promise ((resolve, reject) => {
-        var publish = posts.filter(posts => posts.published == true);
-        if (publish.length == 0) {
-            reject('no results returned');
-        }
-        resolve(publish);
-    })
+const getPublishedPosts = () => {
+  return new Promise((resolve, reject) => {
+
+      const publishedPosts = posts.filter((post) => post.published === true);
+      if (publishedPosts.length === 0) {
+        reject("No results returned");
+      } else {
+        resolve(publishedPosts);
+      }
+    });
 };
 
-exports.getCategories = () => {
-    return new Promise((resolve,reject) => {
-        if (Categories.length == 0) {
-            reject ('no results returned');
-        }
-        else {
-            resolve (Categories);
-        }
-    })
+const getCategories = () => {
+  return new Promise((resolve, reject) => {
+      if (categories.length === 0) {
+        reject("No results returned");
+      } else {
+        resolve(categories);
+      }
+    });
+};
+
+
+const addPost = (postData) => {
+  return new Promise((resolve, reject) => {
+    postData.id = posts.length + 1;
+    postData.category = parseInt(postData.category,10);
+    if (postData.published === undefined) {
+      postData.published = false;
+    } else {
+      postData.published = true;
+    }
+    posts.push(postData);
+    resolve(postData);
+  });
+};
+
+const getPostsByMinDate = (minDate) => {
+  return new Promise((resolve, reject) => {
+    const filteredPosts = posts.filter((post) => {
+      return new Date(post.postDate) >= new Date(minDate);
+    });
+
+    if (filteredPosts.length === 0) {
+      reject("no results returned");
+    } else {
+      resolve(filteredPosts);
+    }
+  });
+};
+
+const getPostsByCategory = (category) => {
+  return new Promise((resolve, reject) => {
+    const filteredPosts = posts.filter((post) => parseInt(post.category, 10) === parseInt(category, 10));
+
+    if (filteredPosts.length === 0) {
+      reject("no results returned");
+    } else {
+      resolve(filteredPosts);
+    }
+  });
+};
+
+const getPostById = (id) => {
+  return new Promise((resolve, reject) => {
+    const post = posts.find((post) => post.id === parseInt(id,10));
+    if (post) {
+      resolve(post);
+    } else {
+      reject("no result returned");
+    }
+  });
+};
+
+module.exports = {
+  posts,
+  categories,
+  initialize,
+  getAllPosts,
+  getCategories,
+  getPublishedPosts,
+  addPost,
+  getPostsByCategory,
+  getPostsByMinDate,
+  getPostById
 };
 
 
